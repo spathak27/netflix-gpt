@@ -1,4 +1,4 @@
-import { BG_LOGO } from "../utils/constants";
+import { BG_LOGO, PROFILE_LOGO } from "../utils/constants";
 import Header from "./Header";
 import { useRef, useState } from "react";
 import { checkValid } from "../utils/validate";
@@ -8,14 +8,12 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const [isSignInform, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const name = useRef(null);
@@ -37,8 +35,7 @@ const Login = () => {
           const user = userCredential.user;
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL:
-              "https://avatars.githubusercontent.com/u/177932031?s=400&u=7e9e5d872de8ec7e2839851c18d9afe5c317a217&v=4",
+            photoURL: { PROFILE_LOGO },
           })
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
@@ -50,7 +47,6 @@ const Login = () => {
                   photoURL: photoURL,
                 })
               );
-              navigate("/browse");
             })
             .catch((error) => {
               setErrorMessage(error.message);
@@ -70,8 +66,6 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
-          navigate("/browse");
         })
         .catch((error) => {
           const errorCode = error.code;
