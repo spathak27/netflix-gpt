@@ -1,8 +1,6 @@
 import MovieCard from "./MovieCard";
 
 const MovieList = ({ title, movies }) => {
-  console.log(movies);
-
   const Movies = Array.isArray(movies) ? movies : [];
   return (
     <div className="px-6 ">
