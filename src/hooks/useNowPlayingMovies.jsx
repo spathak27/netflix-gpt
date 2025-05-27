@@ -1,10 +1,12 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { API_OPTIONS } from "../utils/constants";
 import { useEffect } from "react";
 import { addNowPlayingMovies } from "../utils/movieSlice";
 
 const useNowPlayingMovies = () => {
   const dispatch = useDispatch();
+
+  const playingMovies = useSelector((store) => store.movies.nowPlayingMovies);
 
   const nowPlayingMovies = async () => {
     const data = await fetch(
@@ -17,7 +19,7 @@ const useNowPlayingMovies = () => {
   };
 
   useEffect(() => {
-    nowPlayingMovies();
+    !playingMovies && nowPlayingMovies(); //if it null then only make api call if data is there stop calling the api
   }, []);
 };
 
