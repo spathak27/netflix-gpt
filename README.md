@@ -35,7 +35,12 @@
 - GPT search feature
 - gpt search bar
 - **_multi-lang feature in our app_**
-- integrate Gpt Api
+- integrate Gpt Open ai Api key
+- gpt search api call
+- fetch gpt movie suggestions from tmdb/gpt slice
+- memoization
+- added .env file, making key secret
+- made our site responsive
 
 # Features
 
