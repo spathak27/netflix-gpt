@@ -32,26 +32,18 @@ const GptSearchBar = () => {
       "only give me names of 5 movies, comma separated like the example result given ahead. Example Results: Gadar, Sholay, Don, Golmaal, Koi Mil Gaya ";
 
     try {
-      const response = await fetch("/.netlify/functions/chatgpt", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: gptQuery }),
+      const gptResults = await client.chat.completions.create({
+        model: "gpt-4o",
+        messages: [{ role: "user", content: gptQuery }],
       });
 
-      const gptResults = await response.json();
+      !gptResults.choices
+        ? console.error("no content found")
+        : console.log(gptResults.choices?.[0]?.message?.content);
 
-      if (!gptResults.choices) {
-        console.error("No content found");
-        return;
-      }
+      const gptMovies = gptResults.choices?.[0]?.message?.content.split(",");
 
-      const gptMovies = gptResults.choices[0].message.content
-        .split(",")
-        .map((m) => m.trim());
-
-      const promiseArray = gptMovies.map((movie) => searchMovieTMDB(movie));
+      const promiseArray = gptMovies.map((movie) => searchMovieTMDB(movie)); //the result will be an array of five promises
 
       const tmdbResults = await Promise.all(promiseArray);
       console.log(tmdbResults);

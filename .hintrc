@@ -17,6 +17,7 @@
           "scrollbar-width: none"
         ]
       }
-    ]
+    ],
+    "disown-opener": "off"
   }
 }
